@@ -15,7 +15,6 @@ shivam.singla.co19@nsut.ac.in
 Member 3
 Yash
 2019UCO1530
-
 yash.co19@nsut.ac.in
 
 Member 4
