@@ -358,3 +358,7 @@ pre em * * {
 pre {
   color: white;
 }
+code {
+  background-color: black;
+  color: white;
+}
