@@ -32,14 +32,9 @@ body #navbar ul li a:hover,
 body #navbar ul li a:active {
   color: rgba(255, 255, 255, 0.623);
 }
-body main #welcome-section {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.37)),
-    url("https://www.digikey.com/-/media/MakerIO/Images/blogs/2018/How%20to%20Get%20Started%20with%20Arduino/Cover.jpg");
-}
+
 body main #welcome-section .welcome-contents {
-  color: white;
+  color: black;
   margin: 0 10%;
   font-size: 1.3em;
   min-height: 70vh;
@@ -118,4 +113,23 @@ body footer {
   padding: 20px 0;
   text-align: center;
   background: #0562a0;
+}
+
+.container section {
+  color: #000000;
+  padding: 10px 0;
+  background-size: 50%;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("https://www.digikey.com/-/media/MakerIO/Images/blogs/2018/How%20to%20Get%20Started%20with%20Arduino/Cover.jpg");
+}
+.divider {
+  padding: 0;
+  margin: 0;
+}
+.divider h1 {
+  margin: 10%;
+  /* text-align: center; */
+  font-size: 100px;
+  color: rgb(14, 2, 2);
 }
