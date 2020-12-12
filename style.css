@@ -14,7 +14,7 @@ body #navbar ul {
   margin: 0;
   color: #fff;
   display: flex;
-  background: #009688;
+  background: #0562a0;
   justify-content: flex-end;
 }
 body #navbar ul li {
@@ -24,6 +24,13 @@ body #navbar ul li {
 body #navbar ul li a {
   all: unset;
   cursor: pointer;
+}
+body #navbar ul li a:visited {
+  color: white;
+}
+body #navbar ul li a:hover,
+body #navbar ul li a:active {
+  color: rgba(255, 255, 255, 0.623);
 }
 body main #welcome-section {
   background-size: cover;
@@ -52,7 +59,7 @@ body main #welcome-section .welcome-contents div {
   font-size: 1.5em;
 }
 body main #projects {
-  background: #009688;
+  background: #0562a0;
 }
 body main #projects .projects-title {
   color: white;
@@ -110,5 +117,5 @@ body footer {
   color: white;
   padding: 20px 0;
   text-align: center;
-  background: #048e81;
+  background: #0562a0;
 }
