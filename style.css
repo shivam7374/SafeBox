@@ -17,6 +17,10 @@ body #navbar ul {
   background: #0562a0;
   justify-content: flex-end;
 }
+#project-proposal {
+  background: #0562a0;
+  color: white;
+}
 body #navbar ul li {
   margin: 20px 20px;
   list-style-type: none;
