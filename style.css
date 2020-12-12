@@ -37,26 +37,6 @@ body #navbar ul li a:active {
   color: rgba(255, 255, 255, 0.623);
 }
 
-body main #welcome-section .welcome-contents {
-  color: black;
-  margin: 0 10%;
-  font-size: 1.3em;
-  min-height: 70vh;
-  padding-top: 30vh;
-}
-@media (max-width: 600px) {
-  body main #welcome-section .welcome-contents {
-    font-size: 1.1em;
-    padding-top: 10vh;
-    min-height: 90vh;
-  }
-}
-body main #welcome-section .welcome-contents h1 {
-  font-size: 3em;
-}
-body main #welcome-section .welcome-contents div {
-  font-size: 1.5em;
-}
 body main #projects {
   background: #0562a0;
 }
