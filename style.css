@@ -121,7 +121,7 @@ body footer {
   background-size: 50%;
   background-position: 100% 100%;
   background-repeat: no-repeat;
-  background-image: url("https://www.digikey.com/-/media/MakerIO/Images/blogs/2018/How%20to%20Get%20Started%20with%20Arduino/Cover.jpg");
+  background-image: url("./Images/Cover.webp");
 }
 .divider {
   padding: 0;
