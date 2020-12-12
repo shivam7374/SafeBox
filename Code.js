@@ -14,8 +14,8 @@ int knockVal;
 // variable for the switch value
 int switchVal;
 // variables for the high and low limits of the knock value
-const int quietKnock = 10;
-const int loudKnock = 100;
+const int quietKnock = 50;
+//const int loudKnock = 100;
 // variable to indicate if locked or not
 boolean locked = false;
 // how many valid knocks you've received
@@ -38,58 +38,58 @@ void setup(){
       myServo.write(0);
       // print status to the serial monitor
       Serial.println("the box is unlocked!");
-}
+      }
 
-void loop(){
+      void loop(){
       // if the box is unlocked
       if(locked == false){
-        // read the value of the switch pin
-        switchVal = digitalRead(switchPin);
-        // if the button is pressed, lock the box
-        if(switchVal == HIGH){
-            // set the locked variable to "true"
-            locked = true;
-            // change the status LEDs
-            digitalWrite(greenLed,LOW);
-            digitalWrite(redLed,HIGH);
-            // move the servo to the locked position
-            myServo.write(90);
-            // print out status
-            Serial.println("the box is locked!");
-            // wait for the servo to move into position
-            delay (1000);
-        }
-    }
+      // read the value of the switch pin
+      switchVal = digitalRead(switchPin);
+      // if the button is pressed, lock the box
+      if(switchVal == HIGH){
+      // set the locked variable to "true"
+      locked = true;
+      // change the status LEDs
+      digitalWrite(greenLed,LOW);
+      digitalWrite(redLed,HIGH);
+      // move the servo to the locked position
+      myServo.write(90);
+      // print out status
+      Serial.println("the box is locked!");
+      // wait for the servo to move into position
+      delay (1000);
+}
+}
 
-            // if the box is locked
-    if(locked == true){
-        // check the value of the piezo
-        knockVal = analogRead(piezo);
-        // if there are not enough valid knocks
-        if(numberOfKnocks < 3 && knockVal > 0){
-            // check to see if the knock is in range
-            if(checkForKnock(knockVal) == true){
-                // increment the number of valid knocks
-                numberOfKnocks++;
-            }
-            // print status of knocks
-            Serial.print(3 - numberOfKnocks);
-            Serial.println(" more knocks to go");
-        }
-        // if there are three knocks
-        if(numberOfKnocks >= 3){
-            // unlock the box
-            locked = false;
-            // move the servo to the unlocked position
-            myServo.write(0);
-            // wait for it to move
-            delay(20);
-            // change status LEDs
-            digitalWrite(greenLed,HIGH);
-            digitalWrite(redLed,LOW);
-            Serial.println("the box is unlocked!");
-        }
-    }
+// if the box is locked
+if(locked == true){
+      // check the value of the piezo
+      knockVal = analogRead(piezo);
+      // if there are not enough valid knocks
+      if(numberOfKnocks < 3 && knockVal > 0){
+      // check to see if the knock is in range
+      if(checkForKnock(knockVal) == true){
+      // increment the number of valid knocks
+      numberOfKnocks++;
+}
+      // print status of knocks
+      Serial.print(3 - numberOfKnocks);
+      Serial.println(" more knocks to go");
+}
+// if there are three knocks
+if(numberOfKnocks >= 3){
+      // unlock the box
+      locked = false;
+      // move the servo to the unlocked position
+      myServo.write(0);
+      // wait for it to move
+      delay(20);
+      // change status LEDs
+      digitalWrite(greenLed,HIGH);
+      digitalWrite(redLed,LOW);
+      Serial.println("the box is unlocked!");
+}
+}
 }
 
 // this function checks to see if a
@@ -97,21 +97,21 @@ void loop(){
 boolean checkForKnock(int value){
       // if the value of the knock is greater than
       // the minimum, and larger than the maximum
-      if(value > quietKnock && value < loudKnock){
-        // turn the status LED on
-        digitalWrite(yellowLed, HIGH);
-        delay(50);
-        digitalWrite(yellowLed, LOW);
-        // print out the status
-        Serial.print("Valid knock of value ");
-        Serial.println(value);
-        return true;
-      }
+      if(value > quietKnock){
+      // turn the status LED on
+      digitalWrite(yellowLed, HIGH);
+      delay(50);
+      digitalWrite(yellowLed, LOW);
+      // print out the status
+      Serial.print("Valid knock of value ");
+      Serial.println(value);
+      return true;
+}
       // if the knock is not within range
       else {
-        // print status
-        Serial.print("Bad knock value ");
-        Serial.println(value);
-        return false;
-      }
+      // print status
+      Serial.print("Bad knock value ");
+      Serial.println(value);
+      return false;
+}
 }
