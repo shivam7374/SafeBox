@@ -1,117 +1,96 @@
-// import the library
-#include < Servo.h >
-// create an instance of the servo library
-Servo myServo;
+// SAFEBOX USING KNOCK PATTERN
+// HARSH-2019UCO1504  SHIVAM-2019UCO1526  YASH-2019UCO1530  HEMANT-2019UCO1534
 
-const int piezo = A0;
-const int switchPin = 2;
-const int yellowLed = 3;
-const int greenLed = 4;
-const int redLed = 5;
-//defines LED's and piezo's pins.
-// variable for the piezo value
-int knockVal;
-// variable for the switch value
-int switchVal;
-// variables for the high and low limits of the knock value
-const int quietKnock = 50;
-//const int loudKnock = 100;
-// variable to indicate if locked or not
-boolean locked = false;
-// how many valid knocks you've received
-int numberOfKnocks = 0;
+#include <Servo.h> // Importing the servo library
+Servo servo_motor; // Creating a servo instance
 
-void setup(){
-      // attach the servo to pin 9
-      myServo.attach(9);
-      // make the LED pins outputs
-      pinMode(yellowLed, OUTPUT);
-      pinMode(redLed, OUTPUT);
-      pinMode(greenLed, OUTPUT);
-      // set the switch pin as an input
-      pinMode(switchPin, INPUT);
-      // start serial communication for debugging
-      Serial.begin(9600);
-      // turn the green LED on
-      digitalWrite(greenLed, HIGH);
-      // move the servo to the unlocked position
-      myServo.write(0);
-      // print status to the serial monitor
-      Serial.println("the box is unlocked!");
+// Variables defining pin no. for LEDs' , piezo and switch
+const int switch_push = 2;
+const int led_yellow = 3;
+const int led_green = 4;
+const int led_red = 5;
+const int piezo_sensor = A0;
+
+int knock_read;                 // Variable to read piezo value
+int switch_read;                // Variable to read switch value
+const int threshold_knock = 50; // Variable declaring lower limit of knock value i.e threshold value
+bool safebox_lock = false;      // Status of safebox lock
+
+void setup()
+{
+      servo_motor.attach(9); // Attaching servo motor to 9th pin
+      // Configuring the LED pins to behave as output pins
+      pinMode(led_red, OUTPUT);
+      pinMode(led_yellow, OUTPUT);
+      pinMode(led_green, OUTPUT);
+      pinMode(switch_push, INPUT);   // Configuring the switch pin as input pin
+      Serial.begin(9600);            // Setting data rate for serial transmission, 9600 being the baud rate
+      digitalWrite(led_green, HIGH); // Turning green LED on , i.e setting its voltage to 5V
+      servo_motor.write(0);          // Setting the angle of servo shaft to 0 degree i.e safebox is unlocked
+      Serial.println("!! Safebox is unlocked");
+}
+
+void loop()
+{
+      if (safebox_lock == false) // Checking if safebox is unlocked or not
+      {
+            switch_read = digitalRead(switch_push);
+            if (switch_read == HIGH) // Locking the box if button is pressed
+            {
+                  safebox_lock = true;
+                  // Changing the status of LEDs
+                  digitalWrite(led_green, LOW);
+                  digitalWrite(led_red, HIGH);
+                  servo_motor.write(90); // Setting the servo angle to 90 degrees i.e safebox is locked
+                  Serial.println("!! Safeboxbox is locked");
+                  delay(1000);
+            }
       }
-
-      void loop(){
-      // if the box is unlocked
-      if(locked == false){
-      // read the value of the switch pin
-      switchVal = digitalRead(switchPin);
-      // if the button is pressed, lock the box
-      if(switchVal == HIGH){
-      // set the locked variable to "true"
-      locked = true;
-      // change the status LEDs
-      digitalWrite(greenLed,LOW);
-      digitalWrite(redLed,HIGH);
-      // move the servo to the locked position
-      myServo.write(90);
-      // print out status
-      Serial.println("the box is locked!");
-      // wait for the servo to move into position
-      delay (1000);
-}
-}
-
-// if the box is locked
-if(locked == true){
-      // check the value of the piezo
-      knockVal = analogRead(piezo);
-      // if there are not enough valid knocks
-      if(numberOfKnocks < 3 && knockVal > 0){
-      // check to see if the knock is in range
-      if(checkForKnock(knockVal) == true){
-      // increment the number of valid knocks
-      numberOfKnocks++;
-}
-      // print status of knocks
-      Serial.print(3 - numberOfKnocks);
-      Serial.println(" more knocks to go");
-}
-// if there are three knocks
-if(numberOfKnocks >= 3){
-      // unlock the box
-      locked = false;
-      // move the servo to the unlocked position
-      myServo.write(0);
-      // wait for it to move
-      delay(20);
-      // change status LEDs
-      digitalWrite(greenLed,HIGH);
-      digitalWrite(redLed,LOW);
-      Serial.println("the box is unlocked!");
-}
-}
+      if (safebox_lock == true) // Checking if safebox is locked or not
+      {
+            int count_knocks = 0; // Variable for counting no of valid knocks
+            knock_read = analogRead(piezo_sensor);
+            while (knock_read > 0) // If piezo is knocked
+            {
+                  if (is_knock_valid(knock_read) == 1)
+                  {
+                        count_knocks += 1;
+                  }
+                  knock_read = analogRead(piezo_sensor);
+            }
+            if (count_knocks == 5) // Knock pattern is correct
+            {
+                  safebox_lock = false;
+                  servo_motor.write(0); // Setting the servo to unlocked position of safebox
+                  delay(20);
+                  // Changing the status of LEDs
+                  digitalWrite(led_green, HIGH);
+                  digitalWrite(led_red, LOW);
+                  Serial.println("!! Safebox is unlocked");
+            }
+            else if (count_knocks > 0 && count_knocks != 5)
+            {
+                  Serial.println("!! Invalid knock pattern");
+            }
+      }
 }
 
-// this function checks to see if a
-// detected knock is within max and min range
-boolean checkForKnock(int value){
-      // if the value of the knock is greater than
-      // the minimum, and larger than the maximum
-      if(value > quietKnock){
-      // turn the status LED on
-      digitalWrite(yellowLed, HIGH);
-      delay(50);
-      digitalWrite(yellowLed, LOW);
-      // print out the status
-      Serial.print("Valid knock of value ");
-      Serial.println(value);
-      return true;
-}
-      // if the knock is not within range
-      else {
-      // print status
-      Serial.print("Bad knock value ");
-      Serial.println(value);
-      return false;
-}
+int is_knock_valid(int kvalue) // Checking if knock is valid or not
+{
+      if (kvalue > threshold_knock)
+      {
+            // Yellow LED blinks on valid knock
+            digitalWrite(led_yellow, HIGH);
+            delay(50);
+            digitalWrite(led_yellow, LOW);
+            Serial.print("The knock was valid with value : ");
+            Serial.println(kvalue);
+            return 1;
+      }
+      else
+      {
+            Serial.print("The knock was invalid with value : ");
+            Serial.println(kvalue);
+            return 0;
+      }
 }
