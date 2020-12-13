@@ -113,7 +113,8 @@ body footer {
   margin: 0;
 }
 .divider h1 {
-  margin: 10%;
+  margin: 8%;
+  text-decoration: underline;
   /* text-align: center; */
   font-family: "Snap ITC", "Arial Narrow", Arial, sans-serif;
   font-size: 100px;
