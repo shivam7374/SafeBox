@@ -164,7 +164,10 @@ pre * {
 pre {
   font-size: 0.8em;
 }
-
+section h1 {
+  font-family: "Times New Roman", "Arial Narrow", Arial, sans-serif;
+  font-weight: bolder;
+}
 pre,
 pre code,
 pre samp {
