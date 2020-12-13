@@ -115,6 +115,7 @@ body footer {
 .divider h1 {
   margin: 10%;
   /* text-align: center; */
+  font-family: "Snap ITC", "Arial Narrow", Arial, sans-serif;
   font-size: 100px;
   color: rgb(14, 2, 2);
 }
@@ -149,7 +150,11 @@ figure figcaption {
   user-select: none;
   box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.5);
 }
-
+#project-proposal h2 {
+  font-family: "Times New Roman", "Arial Narrow", Arial, sans-serif;
+  font-weight: bolder;
+  text-decoration: underline;
+}
 pre,
 pre * {
   font: normal normal normal 1em/1.4 monaco, courier, monospace;
